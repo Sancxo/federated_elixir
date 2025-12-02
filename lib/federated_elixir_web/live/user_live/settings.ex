@@ -132,7 +132,7 @@ defmodule FederatedElixirWeb.UserLive.Settings do
     user = socket.assigns.current_scope.user
     true = Accounts.sudo_mode?(user)
 
-    case Accounts.change_user_email(user, user_params) |> dbg do
+    case Accounts.change_user_email(user, user_params) do
       %{valid?: true} = changeset ->
         Accounts.deliver_user_update_email_instructions(
           Ecto.Changeset.apply_action!(changeset, :insert),

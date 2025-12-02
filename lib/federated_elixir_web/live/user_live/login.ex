@@ -126,6 +126,7 @@ defmodule FederatedElixirWeb.UserLive.Login do
   end
 
   defp local_mail_adapter? do
-    Application.get_env(:federated_elixir, FederatedElixir.Mailer)[:adapter] == Swoosh.Adapters.Local
+    Application.get_env(:federated_elixir, FederatedElixir.Mailer)[:adapter] ==
+      Swoosh.Adapters.Local
   end
 end
