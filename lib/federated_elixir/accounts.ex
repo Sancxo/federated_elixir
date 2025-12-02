@@ -145,6 +145,19 @@ defmodule FederatedElixir.Accounts do
     User.newsletter_subscription_changeset(user, attrs)
   end
 
+  @doc """
+  Updates the user subscription to the newsletter.
+
+  Returns the updated user.
+
+  ## Examples
+
+      iex> update_newsletter_subscription(user, %{subscribe_to_newsletter: true, ...})
+      {:ok, %User{}}
+
+      iex> update_newsletter_subscription(user, %{subscribe_to_newsletter: 123, ...})
+      {:error, %Ecto.Changeset{}}
+  """
   def update_newsletter_subscription(user, attrs) do
     user
     |> User.newsletter_subscription_changeset(attrs)

@@ -1,4 +1,7 @@
 defmodule FederatedElixir.Accounts.UserToken do
+  @moduledoc """
+  UserToken schema used by the magic link authentication process.
+  """
   use Ecto.Schema
   import Ecto.Query
   alias FederatedElixir.Accounts.UserToken

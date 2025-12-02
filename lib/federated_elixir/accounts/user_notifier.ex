@@ -1,4 +1,7 @@
 defmodule FederatedElixir.Accounts.UserNotifier do
+  @moduledoc """
+  Email functions and templates used for magic link authentication, user confirmation and email update.
+  """
   import Swoosh.Email
 
   alias FederatedElixir.Mailer

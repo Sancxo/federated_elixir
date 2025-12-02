@@ -1,4 +1,7 @@
 defmodule FederatedElixir.Accounts.User do
+  @moduledoc """
+  User schema defining the user's information.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

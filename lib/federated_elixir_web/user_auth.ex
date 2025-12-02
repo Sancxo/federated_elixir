@@ -1,4 +1,9 @@
 defmodule FederatedElixirWeb.UserAuth do
+  @moduledoc """
+  Module managing User authentication.
+
+  It contains functions used by `user_session_controller.ex`, router Plugs and `on_mount` hooks.
+  """
   use FederatedElixirWeb, :verified_routes
 
   import Plug.Conn
