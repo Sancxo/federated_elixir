@@ -9,3 +9,14 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias FederatedElixir.Accounts.User
+alias FederatedElixir.Repo
+
+for index <- 1..20_000 do
+  Repo.insert!(%User{
+    email: "user-#{index}@mail.com",
+    subscribe_to_newsletter: true,
+    confirmed_at: DateTime.utc_now(:second)
+  })
+end
