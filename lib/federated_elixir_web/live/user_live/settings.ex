@@ -4,6 +4,7 @@ defmodule FederatedElixirWeb.UserLive.Settings do
   on_mount {FederatedElixirWeb.UserAuth, :require_sudo_mode}
 
   alias FederatedElixir.Accounts
+  alias FederatedElixir.Accounts.Scope
 
   @impl true
   def render(assigns) do
@@ -30,18 +31,14 @@ defmodule FederatedElixirWeb.UserLive.Settings do
 
       <div class="divider" />
 
-      <.form for={@newsletter_form} id="newsletter_form" phx-submit="update_newsletter_subscription">
-        <.input
-          field={@email_form[:subscribe_to_newsletter]}
-          type="checkbox"
-          label="Do you want to receive a weekly digest of Elixir news ?"
-        />
-
-        <.button variant="primary" phx-disable-with="Changing...">
-          {(@current_user_subscription && "Unsubscribe") ||
-            "Subscribe"}
-        </.button>
-      </.form>
+      <.button
+        variant="primary"
+        phx-disable-with="Changing..."
+        phx-click="update_newsletter_subscription"
+      >
+        {(@current_user_subscription && "Unsubscribe to weekly digest") ||
+          "Subscribe to weekly digest"}
+      </.button>
 
       <div class="divider" />
 
@@ -99,7 +96,6 @@ defmodule FederatedElixirWeb.UserLive.Settings do
   def mount(_params, _session, socket) do
     user = socket.assigns.current_scope.user
     email_changeset = Accounts.change_user_email(user, %{}, validate_unique: false)
-    newsletter_changeset = Accounts.change_newsletter_subscription(user, %{})
     password_changeset = Accounts.change_user_password(user, %{}, hash_password: false)
 
     socket =
@@ -107,7 +103,6 @@ defmodule FederatedElixirWeb.UserLive.Settings do
       |> assign(:current_email, user.email)
       |> assign(:current_user_subscription, user.subscribe_to_newsletter)
       |> assign(:email_form, to_form(email_changeset))
-      |> assign(:newsletter_form, to_form(newsletter_changeset))
       |> assign(:password_form, to_form(password_changeset))
       |> assign(:trigger_submit, false)
 
@@ -149,30 +144,24 @@ defmodule FederatedElixirWeb.UserLive.Settings do
   end
 
   @impl true
-  def handle_event("update_newsletter_subscription", params, socket) do
-    %{"user" => user_params} = params
+  def handle_event("update_newsletter_subscription", _params, socket) do
     user = socket.assigns.current_scope.user
     true = Accounts.sudo_mode?(user)
 
-    with %{valid?: true} = changeset <-
-           Accounts.change_newsletter_subscription(user, user_params),
-         {:ok, user} <- Accounts.update_newsletter_subscription(user, user_params) do
-      {:noreply,
-       socket
-       |> put_flash(:info, "Newsletter subscription updated successfully")
-       |> assign(
-         current_user_subscription: user.subscribe_to_newsletter,
-         newsletter_form: to_form(changeset)
-       )}
-    else
-      %{valid?: false} = changeset ->
-        {:noreply, assign(socket, :newsletter_form, to_form(changeset, action: :insert))}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
+    case Accounts.switch_newsletter_subcription(user) do
+      {:ok, changed_user} ->
         {:noreply,
          socket
-         |> put_flash(:error, "Something went wrong when updating your subscription")
-         |> assign(:newsletter_form, to_form(changeset))}
+         |> put_flash(:info, "Newsletter subscription updated successfully")
+         |> assign(
+           current_scope: %Scope{user: changed_user},
+           current_user_subscription: changed_user.subscribe_to_newsletter
+         )}
+
+      {:error, %Ecto.Changeset{}} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, "Something went wrong when updating your subscription")}
     end
   end
 

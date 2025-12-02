@@ -79,21 +79,12 @@ defmodule FederatedElixir.Accounts.User do
   end
 
   @doc """
-  A user changeset for changing the newsletter subscription inside settings.
+  A user changeset for switching the newsletter subscription inside settings.
   """
-  def newsletter_subscription_changeset(user, attrs) do
+  def newsletter_subscription_changeset(user) do
     user
-    |> cast(attrs, [:subscribe_to_newsletter])
-    |> validate_subscription_changed()
-  end
-
-  defp validate_subscription_changed(changeset) do
-    if get_field(changeset, :subscribe_to_newsletter) &&
-         get_change(changeset, :subscribe_to_newsletter) == nil do
-      add_error(changeset, :subscribe_to_newsletter, "did not change")
-    else
-      changeset
-    end
+    |> change()
+    |> put_change(:subscribe_to_newsletter, !user.subscribe_to_newsletter)
   end
 
   @doc """

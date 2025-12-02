@@ -132,35 +132,9 @@ defmodule FederatedElixir.Accounts do
     end)
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for changing the newsletter subscription.
-
-  ## Examples
-
-      iex> change_newsletter_subscription(user)
-      %Ecto.Changeset{data: %User{}}
-
-  """
-  def change_newsletter_subscription(user, attrs \\ %{}) do
-    User.newsletter_subscription_changeset(user, attrs)
-  end
-
-  @doc """
-  Updates the user subscription to the newsletter.
-
-  Returns the updated user.
-
-  ## Examples
-
-      iex> update_newsletter_subscription(user, %{subscribe_to_newsletter: true, ...})
-      {:ok, %User{}}
-
-      iex> update_newsletter_subscription(user, %{subscribe_to_newsletter: 123, ...})
-      {:error, %Ecto.Changeset{}}
-  """
-  def update_newsletter_subscription(user, attrs) do
+  def switch_newsletter_subcription(user) do
     user
-    |> User.newsletter_subscription_changeset(attrs)
+    |> User.newsletter_subscription_changeset()
     |> Repo.update()
   end
 
