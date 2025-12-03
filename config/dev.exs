@@ -54,12 +54,13 @@ config :federated_elixir, FederatedElixirWeb.Endpoint,
 
 # Watch static and templates for browser reloading.
 config :federated_elixir, FederatedElixirWeb.Endpoint,
+  reloadable_compilers: [:phoenix_live_view, :gettext, :elixir, :app, :surface],
   live_reload: [
     web_console_logger: true,
     patterns: [
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/federated_elixir_web/(?:controllers|live|components|router)/?.*\.(ex|heex)$"
+      ~r"lib/federated_elixir_web/(?:controllers|live|components|router)/?.*\.(ex|heex|sface|js)$"
     ]
   ]
 

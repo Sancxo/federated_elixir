@@ -10,7 +10,7 @@ defmodule FederatedElixir.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      compilers: [:phoenix_live_view] ++ Mix.compilers(),
+      compilers: [:phoenix_live_view, :surface] ++ Mix.compilers(),
       listeners: [Phoenix.CodeReloader],
       test_coverage: [tool: ExCoveralls]
     ]
@@ -75,6 +75,7 @@ defmodule FederatedElixir.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
+      {:surface, "~> 0.12.1"},
       {:credo, "~> 1.7"},
       {:sobelow, "~> 0.14.1", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.18.5", only: [:dev, :test], runtime: false}
