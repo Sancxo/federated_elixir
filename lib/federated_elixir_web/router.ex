@@ -19,8 +19,6 @@ defmodule FederatedElixirWeb.Router do
 
   scope "/", FederatedElixirWeb do
     pipe_through :browser
-
-    get "/", PageController, :home
   end
 
   # Other scopes may use custom stacks.
@@ -56,6 +54,7 @@ defmodule FederatedElixirWeb.Router do
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
     end
 
+    get "/", PageController, :home
     post "/users/update-password", UserSessionController, :update_password
   end
 
