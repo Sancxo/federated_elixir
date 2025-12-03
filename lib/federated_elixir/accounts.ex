@@ -132,6 +132,10 @@ defmodule FederatedElixir.Accounts do
     end)
   end
 
+  @doc """
+  Updates the user newsletter subscription to `true` or `false` depending on its initial value.
+  If `true` sets it to `false` and vice versa.
+  """
   def switch_newsletter_subcription(user) do
     user
     |> User.newsletter_subscription_changeset()
