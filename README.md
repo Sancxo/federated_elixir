@@ -13,3 +13,12 @@ After cloning the repository on your computer, to start the server:
 * Then start Phoenix endpoint with `mix phx.server`.
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+## Tests and quality checks
+
+This project uses `Credo` and `exCoveralls` for code hygiene and coverage. To run these quality checks alongside tests, just run `mix quality`. Others commands are :
+
+- `mix test` for tests only,
+- `mix coveralls` for code coverage only,
+- `mix coveralls.detail --filter PATH/TO/FILE.ex` to highlight the tested and untested parts of a file,
+- `mix credo` for quality check,
