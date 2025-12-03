@@ -2,6 +2,7 @@ defmodule FederatedElixirWeb.UserLive.SettingsTest do
   use FederatedElixirWeb.ConnCase, async: true
 
   alias FederatedElixir.Accounts
+  alias FederatedElixir.Accounts.User
   import Phoenix.LiveViewTest
   import FederatedElixir.AccountsFixtures
 
@@ -86,6 +87,35 @@ defmodule FederatedElixirWeb.UserLive.SettingsTest do
 
       assert result =~ "Change Email"
       assert result =~ "did not change"
+    end
+  end
+
+  describe "update newsletter subscription form" do
+    setup %{conn: conn} do
+      user = user_fixture()
+      %{conn: log_in_user(conn, user), user: user}
+    end
+
+    test "updates the newsletter subscription", %{conn: conn, user: user} do
+      {:ok, lv, _html} = live(conn, ~p"/users/settings")
+
+      result =
+        lv
+        |> element("#subscription_switch_button", "Subscribe")
+        |> render_click()
+
+      assert result =~ "Newsletter subscription updated successfully"
+      assert result =~ "Unsubscribe"
+      assert %User{subscribe_to_newsletter: true} = Accounts.get_user_by_email(user.email)
+
+      result =
+        lv
+        |> element("#subscription_switch_button", "Unsubscribe")
+        |> render_click()
+
+      assert result =~ "Newsletter subscription updated successfully"
+      assert result =~ "Subscribe"
+      assert %User{subscribe_to_newsletter: false} = Accounts.get_user_by_email(user.email)
     end
   end
 

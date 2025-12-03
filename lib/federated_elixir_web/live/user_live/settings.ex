@@ -32,6 +32,7 @@ defmodule FederatedElixirWeb.UserLive.Settings do
       <div class="divider" />
 
       <.button
+        id="subscription_switch_button"
         variant="primary"
         phx-disable-with="Changing..."
         phx-click="update_newsletter_subscription"
