@@ -180,6 +180,20 @@ defmodule FederatedElixir.AccountsTest do
     end
   end
 
+  describe "update_newsletter_subscription/2" do
+    setup do
+      %{user: user_fixture()}
+    end
+
+    test "switch the user newsletter subscription", %{user: user} do
+      assert {:ok, %User{subscribe_to_newsletter: true} = updated_user} =
+               Accounts.switch_newsletter_subcription(user)
+
+      assert {:ok, %User{subscribe_to_newsletter: false}} =
+               Accounts.switch_newsletter_subcription(updated_user)
+    end
+  end
+
   describe "change_user_password/3" do
     test "returns a user changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_password(%User{})
