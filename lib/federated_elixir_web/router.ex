@@ -17,10 +17,6 @@ defmodule FederatedElixirWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", FederatedElixirWeb do
-    pipe_through :browser
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", FederatedElixirWeb do
   #   pipe_through :api
