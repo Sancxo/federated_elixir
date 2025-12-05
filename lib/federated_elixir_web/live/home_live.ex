@@ -15,13 +15,13 @@ defmodule FederatedElixirWeb.HomeLive do
       <Header>
         Federated Elixir
         <:subtitle>Get the freshest Elixir news from the Fediverse.</:subtitle>
-        <:actions><.button variant="primary" phx-click="reset-feed">Reset feed <.icon name="hero-arrow-path" /></.button></:actions>
+        <:actions><.button variant="primary" phx-click="reset-feed" phx-disable-with="Resetting ...">Reset feed <.icon name="hero-arrow-path" /></.button></:actions>
       </Header>
 
       <Feed posts={@streams.posts} is_error={@is_error} last_post_id={@last_post_id} />
 
       <div class="flex justify-center">
-        <.button variant="primary" phx-click="load-more-posts">Load more <.icon name="hero-plus" /></.button>
+        <.button variant="primary" phx-click="load-more-posts" phx-disable-with="Loading ...">Load more <.icon name="hero-plus" /></.button>
       </div>
     </Layouts.app>
     """
