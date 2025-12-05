@@ -7,7 +7,7 @@ defmodule FederatedElixirWeb.MastodonApi do
   - `fetch_previous_posts`: load the 20 posts published before
 
   This server is also responsible to send each monday at 00:00 (UTC) a mail containing the
-  40 latest posts published to the users who subscribed to it
+  40 latest posts published since the previous review to all the users who subscribed to it
   """
   use GenServer
   require Logger
@@ -17,8 +17,11 @@ defmodule FederatedElixirWeb.MastodonApi do
   @elixir_hashtag_uri "https://mastodon.social/api/v1/timelines/tag/elixir"
 
   @doc false
-  def start_link(initial_state \\ %{}),
-    do: GenServer.start_link(__MODULE__, initial_state, name: __MODULE__)
+  def start_link(initial_state \\ %{}) do
+    GenServer.start_link(__MODULE__, Map.put(initial_state, :newest_post_id, nil),
+      name: __MODULE__
+    )
+  end
 
   @doc """
   Asynchronous function to get the list of the 20 latest posts on Mastodon with the `#elixir` hashtag.
@@ -81,24 +84,44 @@ defmodule FederatedElixirWeb.MastodonApi do
   @impl true
   @doc false
   def handle_info(:send_weekly_review, state) do
-    send_weekly_review()
+    send_weekly_review(state)
     {:noreply, state}
   end
 
+  @impl true
+  def handle_info({:update_newest_post, newest_post_id}, state) do
+    {:noreply, Map.put(state, :newest_post_id, newest_post_id)}
+  end
+
   # Private function called periodically (once a week) by handle_info in order to get the
-  # 40 latest posts on Mastodon containing the `#elixir` hashtag, then to send it to the
-  # users who subscribed to it
-  @spec send_weekly_review() :: reference()
-  defp send_weekly_review() do
+  # 40 latest posts on Mastodon since the last post fetched and containing the `#elixir` hashtag,
+  # then to send it to the users who subscribed to it
+  @spec send_weekly_review(map()) :: reference()
+  defp send_weekly_review(state) do
     fetch_posts =
       Task.async(fn ->
-        Req.get("")
+        last_post_id_param =
+          case state.newest_post_id do
+            nil -> ""
+            id -> "&since_id=" <> id
+          end
+
+        Req.get(@elixir_hashtag_uri <> "?limit=40" <> last_post_id_param)
       end)
 
     with {:ok, %Req.Response{body: posts}} <- Task.await(fetch_posts) do
-      for recipient <- Accounts.list_newsletter_recipients() do
-        Logger.info("Hi #{recipient.email} ! Here is your weekly report : #{inspect(posts)}")
-      end
+      Accounts.list_newsletter_recipients()
+      |> Task.async_stream(
+        fn recipient ->
+          Logger.info("Hi #{recipient.email} ! Here is your weekly report : #{inspect(posts)}")
+        end,
+        ordered: false
+      )
+      |> Stream.run()
+
+      [%{"id" => newest_post_id} | _] = posts
+
+      send(self(), {:update_newest_post, newest_post_id})
     end
 
     Process.send_after(self(), :send_weekly_review, get_next_delivery_date_in_ms())
