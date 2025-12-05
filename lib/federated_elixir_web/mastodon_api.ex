@@ -17,10 +17,8 @@ defmodule FederatedElixirWeb.MastodonApi do
   @elixir_hashtag_uri "https://mastodon.social/api/v1/timelines/tag/elixir"
 
   @doc false
-  def start_link(initial_state \\ %{}) do
-    GenServer.start_link(__MODULE__, Map.put(initial_state, :newest_post_id, nil),
-      name: __MODULE__
-    )
+  def start_link(_initial_state) do
+    GenServer.start_link(__MODULE__, %{newest_post_id: nil}, name: __MODULE__)
   end
 
   @doc """
