@@ -56,6 +56,14 @@ defmodule FederatedElixirWeb do
     end
   end
 
+  def surface_live_view do
+    quote do
+      use Surface.LiveView
+
+      unquote(html_helpers())
+    end
+  end
+
   def live_component do
     quote do
       use Phoenix.LiveComponent
@@ -74,6 +82,7 @@ defmodule FederatedElixirWeb do
 
       # Include general helpers for rendering HTML
       unquote(html_helpers())
+      import Surface
     end
   end
 
