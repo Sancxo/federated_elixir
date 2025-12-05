@@ -21,7 +21,7 @@ defmodule FederatedElixirWeb.SurfaceComponents.Post do
   def render(assigns) do
     ~F"""
     <article id={@id} class="flex flex-col gap-4 p-4">
-      <PostHeader account={@post.account} />
+      <PostHeader account={@post.account} creation_date_time={@post.created_at} />
 
       <div class="[&_a]:hover:underline [&_a.mention]:text-base-content/70 [&_a:not(.mention)]:text-primary">
         {raw(@post.content)}
