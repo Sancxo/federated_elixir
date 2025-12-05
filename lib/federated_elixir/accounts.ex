@@ -9,6 +9,23 @@ defmodule FederatedElixir.Accounts do
   alias FederatedElixir.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
+  @doc """
+  List all users who subscribed to the mail weekly review.
+  Returns an empty list if nothing was found.
+
+  ## Examples
+      iex> list_newsletter_recipients()
+      [%User{subscribe_to_newsletter: true, ...}, ...]
+
+      # if no one subscribed
+      iex> list_newsletter_recipients()
+      []
+  """
+  def list_newsletter_recipients() do
+    User
+    |> where([u], u.subscribe_to_newsletter == true)
+    |> Repo.all()
+  end
 
   @doc """
   Gets a user by email.
