@@ -13,6 +13,7 @@ defmodule FederatedElixirWeb.MastodonApi do
   require Logger
 
   alias FederatedElixir.Accounts
+  alias FederatedElixir.Mastodon.Post
 
   @elixir_hashtag_uri "https://mastodon.social/api/v1/timelines/tag/elixir"
 
@@ -63,7 +64,7 @@ defmodule FederatedElixirWeb.MastodonApi do
   @impl true
   @doc false
   def handle_cast(:fetch_latest_posts, state) do
-    resp = Req.get(@elixir_hashtag_uri)
+    resp = Req.get(@elixir_hashtag_uri) |> handle_data()
 
     broadcast_api(resp, :latest_posts_fetched)
 
@@ -72,7 +73,7 @@ defmodule FederatedElixirWeb.MastodonApi do
 
   @impl true
   def handle_cast({:fetch_previous_posts, from_id}, state) do
-    resp = Req.get("#{@elixir_hashtag_uri}?max_id=#{from_id}")
+    resp = Req.get("#{@elixir_hashtag_uri}?max_id=#{from_id}") |> handle_data()
 
     broadcast_api(resp, :previous_posts_fetched)
 
@@ -89,6 +90,24 @@ defmodule FederatedElixirWeb.MastodonApi do
   @impl true
   def handle_info({:update_newest_post, newest_post_id}, state) do
     {:noreply, Map.put(state, :newest_post_id, newest_post_id)}
+  end
+
+  # Private function used to parse data received from Mastodon and to return a three-entry tuple readable by the HomeLive module
+  @spec handle_data({:ok, Req.Response.t() | {:error, Exception.t()}}) ::
+          {list(), String.t() | nil, boolean()}
+  defp handle_data({:ok, %Req.Response{body: posts}}) do
+    posts =
+      Enum.map(posts, fn post ->
+        Post.new(post)
+      end)
+
+    last_post = List.last(posts)
+
+    {posts, last_post.id, false}
+  end
+
+  defp handle_data({:error, _}) do
+    {[], nil, true}
   end
 
   # Private function called periodically (once a week) by handle_info in order to get the

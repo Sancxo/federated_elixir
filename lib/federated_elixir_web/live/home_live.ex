@@ -53,48 +53,18 @@ defmodule FederatedElixirWeb.HomeLive do
   end
 
   @impl true
-  def handle_info({:latest_posts_fetched, data}, socket) do
-    {data, is_error} = parse_result(data)
-
-    posts =
-      Enum.map(data.body, fn post ->
-        Map.new(post, fn {key, value} ->
-          {String.to_atom(key), value}
-        end)
-      end)
-
-    [last_post | _] = Enum.reverse(posts)
-
+  def handle_info({:latest_posts_fetched, {posts, last_post_id, is_error}}, socket) do
     {:noreply,
      socket
-     |> stream(:posts, posts |> IO.inspect(label: "posts"), reset: true)
-     |> assign(is_error: is_error, last_post_id: last_post.id)}
+     |> stream(:posts, posts, reset: true)
+     |> assign(is_error: is_error, last_post_id: last_post_id)}
   end
 
   @impl true
-  def handle_info({:previous_posts_fetched, data}, socket) do
-    {data, is_error} = parse_result(data)
-
-    posts =
-      Enum.map(data.body, fn post ->
-        Map.new(post, fn {key, value} ->
-          {String.to_atom(key), value}
-        end)
-      end)
-
-    [last_post | _] = Enum.reverse(posts)
-
+  def handle_info({:previous_posts_fetched, {posts, last_post_id, is_error}}, socket) do
     {:noreply,
      socket
      |> stream(:posts, posts, reset: false)
-     |> assign(is_error: is_error, last_post_id: last_post.id)}
-  end
-
-  @spec parse_result({:ok, term() | {:error, term}}) :: {term(), boolean()}
-  defp parse_result(fetch) do
-    case fetch do
-      {:ok, data} -> {data, false}
-      {:error, _} -> {[], true}
-    end
+     |> assign(is_error: is_error, last_post_id: last_post_id)}
   end
 end
