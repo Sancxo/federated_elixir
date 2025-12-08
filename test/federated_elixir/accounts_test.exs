@@ -6,6 +6,18 @@ defmodule FederatedElixir.AccountsTest do
   import FederatedElixir.AccountsFixtures
   alias FederatedElixir.Accounts.{User, UserToken}
 
+  describe "list_newletter_recipients/0" do
+    test "returns a list of Users with :subscribe_to_newsletter to true" do
+      subscriber = user_fixture(subscribe_to_newsletter: true)
+      non_subscriber = user_fixture(subscribe_to_newsletter: false)
+
+      subscribers_list = Accounts.list_newsletter_recipients()
+
+      assert subscribers_list == [subscriber]
+      refute subscribers_list == [non_subscriber]
+    end
+  end
+
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do
       refute Accounts.get_user_by_email("unknown@example.com")
