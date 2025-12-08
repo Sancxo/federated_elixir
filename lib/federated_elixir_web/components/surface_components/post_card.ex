@@ -5,8 +5,7 @@ defmodule FederatedElixirWeb.SurfaceComponents.PostCard do
   a hostname and a page title.
   """
   use Surface.Component
-  alias FederatedElixirWeb.SurfaceComponents.CardImageSquare
-  alias FederatedElixirWeb.SurfaceComponents.CardImageBanner
+  alias FederatedElixirWeb.SurfaceComponents.{CardImageBanner, CardImageSquare}
 
   @impl true
   prop(card, :map, required: true)
