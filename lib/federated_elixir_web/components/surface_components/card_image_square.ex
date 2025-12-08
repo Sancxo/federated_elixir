@@ -7,7 +7,7 @@ defmodule FederatedElixirWeb.SurfaceComponents.CardImageSquare do
   alias FederatedElixirWeb.CoreComponents
 
   @impl true
-  prop(image, :string, default: "")
+  prop(image, :string)
   prop(provider_name, :string, default: "")
   prop(title, :string, default: "")
 
