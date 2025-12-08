@@ -45,6 +45,8 @@ defmodule FederatedElixirWeb.SurfaceComponents.PostHeader do
         %{day: day, month: month, year: creation_year} = DateTime.to_date(creation_datetime)
         %{year: current_year} = Date.utc_today()
 
+        day = day |> Integer.to_string() |> String.pad_leading(2, "0")
+
         (creation_year == current_year &&
            "#{day}/#{month}") || "#{day}/#{month}/#{creation_year}"
     end
