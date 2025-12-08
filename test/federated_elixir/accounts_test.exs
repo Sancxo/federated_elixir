@@ -14,7 +14,7 @@ defmodule FederatedElixir.AccountsTest do
       subscribers_list = Accounts.list_newsletter_recipients()
 
       assert subscribers_list == [subscriber]
-      refute subscribers_list == [non_subscriber]
+      refute non_subscriber in subscribers_list
     end
   end
 
