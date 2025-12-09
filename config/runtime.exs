@@ -20,6 +20,9 @@ if System.get_env("PHX_SERVER") do
   config :federated_elixir, FederatedElixirWeb.Endpoint, server: true
 end
 
+config :federated_elixir, FederatedElixir.Mastodon,
+  mastodon_api_url: "https://mastodon.social/api/v1/timelines/tag/elixir"
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

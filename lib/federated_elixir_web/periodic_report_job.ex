@@ -7,8 +7,6 @@ defmodule FederatedElixirWeb.PeriodicReportJob do
   require Logger
   alias FederatedElixir.Accounts
 
-  @elixir_hashtag_uri "https://mastodon.social/api/v1/timelines/tag/elixir"
-
   @doc false
   def start_link(_initial_state) do
     GenServer.start_link(__MODULE__, %{newest_post_id: nil}, name: __MODULE__)
@@ -45,9 +43,12 @@ defmodule FederatedElixirWeb.PeriodicReportJob do
         id -> "&since_id=" <> id
       end
 
+    elixir_hashtag_url =
+      Application.get_env(:federated_elixir, FederatedElixir.Mastodon)[:mastodon_api_url]
+
     fetch_posts =
       Task.async(fn ->
-        Req.get(@elixir_hashtag_uri <> "?limit=40" <> last_post_id_param)
+        Req.get(elixir_hashtag_url <> "?limit=40" <> last_post_id_param)
       end)
 
     # if the request succeeded and if posts is not an empty list, we send the data by mail

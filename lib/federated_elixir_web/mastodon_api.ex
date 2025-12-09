@@ -8,8 +8,6 @@ defmodule FederatedElixirWeb.MastodonApi do
   """
   alias FederatedElixir.Mastodon.Post
 
-  @elixir_hashtag_uri "https://mastodon.social/api/v1/timelines/tag/elixir"
-
   @doc """
   Asynchronous function to get the list of the 20 latest posts on Mastodon with the `#elixir` hashtag.
   Data returned by the request is broadcasted on `"mastodon_api_topic"` when available.
@@ -18,7 +16,7 @@ defmodule FederatedElixirWeb.MastodonApi do
   def fetch_latest_posts() do
     resp =
       Task.async(fn ->
-        Req.get(@elixir_hashtag_uri)
+        get_mastodon_api_url() |> Req.get()
       end)
       |> Task.await()
       |> handle_data()
@@ -34,7 +32,7 @@ defmodule FederatedElixirWeb.MastodonApi do
   def fetch_previous_posts(from_id) do
     resp =
       Task.async(fn ->
-        Req.get("#{@elixir_hashtag_uri}?max_id=#{from_id}")
+        Req.get("#{get_mastodon_api_url()}?max_id=#{from_id}")
       end)
       |> Task.await()
       |> handle_data()
@@ -72,4 +70,7 @@ defmodule FederatedElixirWeb.MastodonApi do
   defp handle_data({:error, _}) do
     {[], nil, true}
   end
+
+  defp get_mastodon_api_url(),
+    do: Application.get_env(:federated_elixir, FederatedElixir.Mastodon)[:mastodon_api_url]
 end
