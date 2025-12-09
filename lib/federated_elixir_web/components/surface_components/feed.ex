@@ -13,7 +13,7 @@ defmodule FederatedElixirWeb.SurfaceComponents.Feed do
 
   def render(assigns) do
     ~F"""
-    <div class="border-2 rounded-xl" phx-update="stream">
+    <div id="feed" class="border-2 rounded-xl" phx-update="stream">
       <p id="empty-case" class="only:block hidden text-center my-8">Loading ...</p>
       <div
         :if={@is_error}
