@@ -76,6 +76,7 @@ defmodule FederatedElixir.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:surface, "~> 0.12.1"},
+      {:bypass, "~> 2.1"},
       {:credo, "~> 1.7"},
       {:sobelow, "~> 0.14.1", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.18.5", only: [:dev, :test], runtime: false}
