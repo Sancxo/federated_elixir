@@ -12,7 +12,7 @@ defmodule FederatedElixir.Application do
       FederatedElixir.Repo,
       {DNSCluster, query: Application.get_env(:federated_elixir, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: FederatedElixir.PubSub},
-      FederatedElixirWeb.MastodonApi,
+      FederatedElixirWeb.PeriodicReportJob,
       # Start a worker by calling: FederatedElixir.Worker.start_link(arg)
       # {FederatedElixir.Worker, arg},
       # Start to serve requests, typically the last entry
