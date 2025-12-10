@@ -1,4 +1,5 @@
 defmodule MastodonApiMockedData do
+  @moduledoc false
   defmacro __using__(_opts) do
     quote do
       @mock_first_post [
@@ -220,6 +221,118 @@ defmodule MastodonApiMockedData do
           ],
           "uri" => "https://hachyderm.io/users/lawik/statuses/115689026280236444",
           "url" => "https://hachyderm.io/@lawik/115689026280236444",
+          "visibility" => "public"
+        }
+      ]
+
+      @mock_third_post [
+        %{
+          "account" => %{
+            "acct" => "lawik@hachyderm.io",
+            "avatar" =>
+              "https://files.mastodon.social/cache/accounts/avatars/114/426/151/375/742/207/original/4175286adbae95b5.jpg",
+            "avatar_static" =>
+              "https://files.mastodon.social/cache/accounts/avatars/114/426/151/375/742/207/original/4175286adbae95b5.jpg",
+            "bot" => false,
+            "created_at" => "2025-04-30T00:00:00.000Z",
+            "discoverable" => true,
+            "display_name" => "Lars Wikman",
+            "emojis" => [],
+            "fields" => [
+              %{
+                "name" => "Site",
+                "value" =>
+                  "<a href=\"https://underjord.io\" target=\"_blank\" rel=\"nofollow noopener\" translate=\"no\"><span class=\"invisible\">https://</span><span class=\"\">underjord.io</span><span class=\"invisible\"></span></a>",
+                "verified_at" => "2025-12-09T10:05:56.765+00:00"
+              },
+              %{
+                "name" => "Links",
+                "value" =>
+                  "<a href=\"https://underjord.io/links.html\" rel=\"nofollow noopener\" translate=\"no\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">underjord.io/links.html</span><span class=\"invisible\"></span></a>",
+                "verified_at" => nil
+              },
+              %{
+                "name" => "YouTube",
+                "value" =>
+                  "<a href=\"https://youtube.com/c/underjord\" rel=\"nofollow noopener\" translate=\"no\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">youtube.com/c/underjord</span><span class=\"invisible\"></span></a>",
+                "verified_at" => nil
+              }
+            ],
+            "followers_count" => 797,
+            "following_count" => 419,
+            "group" => false,
+            "header" =>
+              "https://files.mastodon.social/cache/accounts/headers/114/426/151/375/742/207/original/b687f68e7731de54.jpeg",
+            "header_static" =>
+              "https://files.mastodon.social/cache/accounts/headers/114/426/151/375/742/207/original/b687f68e7731de54.jpeg",
+            "hide_collections" => false,
+            "id" => "114426151375742207",
+            "indexable" => true,
+            "last_status_at" => "2025-12-09",
+            "locked" => false,
+            "note" =>
+              "<p>Code creative, 10x talker, Elixir, BEAM, open source/standards/platforms, he/him, part librarian.</p>",
+            "statuses_count" => 401,
+            "uri" => "https://hachyderm.io/users/lawik",
+            "url" => "https://hachyderm.io/@lawik",
+            "username" => "lawik"
+          },
+          "card" => %{
+            "author_name" => "",
+            "author_url" => "",
+            "authors" => [],
+            "blurhash" => "UEBDHLNE4m%34onlx]oc4mWsaeRi%Ot3%2WD",
+            "description" =>
+              "Graphs. Sagas. For booting devices? James Harton takes us on a wild romp through his approach to starting up a Nerves device and sharing his in-depth work on Reactor at the same time.",
+            "embed_url" => "",
+            "height" => 360,
+            "html" => "",
+            "image" =>
+              "https://files.mastodon.social/cache/preview_cards/images/173/662/650/original/5802a0ada058f6e0.png",
+            "image_description" => "",
+            "language" => "en",
+            "provider_name" => "",
+            "provider_url" => "",
+            "published_at" => nil,
+            "title" => "Power up applications with Reactor",
+            "type" => "link",
+            "url" => "https://goatmire.bold.video/v/8wype",
+            "width" => 640
+          },
+          "content" =>
+            "<p>Sagas? Long-running and complex transactions. James Harton is most seen in the Ash space but he has plenty of embedded experience and he tried turning his Reactor saga runner to the Nerves boot process. Learn how Reacto works and what it could be used for entirely separate from Ash.<br><a href=\"https://goatmire.bold.video/v/8wype\" rel=\"nofollow noopener\" translate=\"no\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">goatmire.bold.video/v/8wype</span><span class=\"invisible\"></span></a><br><a href=\"https://hachyderm.io/tags/goatmire\" class=\"mention hashtag\" rel=\"nofollow noopener\" target=\"_blank\">#<span>goatmire</span></a> <a href=\"https://hachyderm.io/tags/elixir\" class=\"mention hashtag\" rel=\"nofollow noopener\" target=\"_blank\">#<span>elixir</span></a></p>",
+          "created_at" => "2025-12-08T10:00:10.000Z",
+          "edited_at" => nil,
+          "emojis" => [],
+          "favourites_count" => 1,
+          "id" => "115683361529924263",
+          "in_reply_to_account_id" => nil,
+          "in_reply_to_id" => nil,
+          "language" => "en",
+          "media_attachments" => [],
+          "mentions" => [],
+          "poll" => nil,
+          "quote" => nil,
+          "quote_approval" => %{
+            "automatic" => ["public"],
+            "current_user" => "denied",
+            "manual" => []
+          },
+          "quotes_count" => 0,
+          "reblog" => nil,
+          "reblogs_count" => 0,
+          "replies_count" => 1,
+          "sensitive" => false,
+          "spoiler_text" => "",
+          "tags" => [
+            %{
+              "name" => "goatmire",
+              "url" => "https://mastodon.social/tags/goatmire"
+            },
+            %{"name" => "elixir", "url" => "https://mastodon.social/tags/elixir"}
+          ],
+          "uri" => "https://hachyderm.io/users/lawik/statuses/115683361483908732",
+          "url" => "https://hachyderm.io/@lawik/115683361483908732",
           "visibility" => "public"
         }
       ]
