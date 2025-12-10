@@ -1,6 +1,6 @@
 # FederatedElixir
 
-This is a test project made with Elixir and Phoenix. The goal of this is to provide fresh Elixir-related content from the [Fediverse](https://jointhefediverse.net) provided by the [Mastodon](https://joinmastodon.org/) API.
+This is a test project made with Elixir and Phoenix. The goal of it is to provide fresh Elixir-related content from the [Fediverse](https://jointhefediverse.net) provided by the [Mastodon](https://joinmastodon.org/) API.
 
 ## Initialization 
 
@@ -22,3 +22,8 @@ This project uses `Credo` and `exCoveralls` for code hygiene and coverage. To ru
 - `mix coveralls` for code coverage only,
 - `mix coveralls.detail --filter PATH/TO/FILE.ex` to highlight the tested and untested parts of a file,
 - `mix credo` for quality check,
+
+## Improvements
+
+- Mastodon API provide a route to stream timelines, this is an opportunity to create a websocket and having real-time notifications each time a new post is published on the Fediverse with an `#elixir` hashtag, with a call to action to refresh the feed.
+- Another interesting idea would be to integrate the Mastodon API authentication instead of the Phoenix one. This would delegate the authentication process to the server hosting the user account, but also allow the user to interact with the posts displayed (like, repost, bookmark, comment, etc). 
