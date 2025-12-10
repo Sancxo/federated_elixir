@@ -25,5 +25,5 @@ This project uses `Credo` and `exCoveralls` for code hygiene and coverage. To ru
 
 ## Improvements
 
-- Mastodon API provide a route to stream timelines, this is an opportunity to create a websocket and having real-time notifications each time a new post is published on the Fediverse with an `#elixir` hashtag, with a call to action to refresh the feed.
+- Mastodon API provide a route to stream timelines, this is an opportunity to create a websocket and having real-time notifications each time a new post is published on the Fediverse with an `#elixir` hashtag ; this would display a call to action to refresh the feed.
 - Another interesting idea would be to integrate the Mastodon API authentication instead of the Phoenix one. This would delegate the authentication process to the server hosting the user account, but also allow the user to interact with the posts displayed (like, repost, bookmark, comment, etc). 
